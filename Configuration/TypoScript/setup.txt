@@ -1,0 +1,6 @@
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:vocabulary/Configuration/TypoScript/HTML/setup.txt">
+
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:vocabulary/Configuration/TypoScript/RDFXML/setup.txt">
+
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:vocabulary/Configuration/TypoScript/TTL/setup.txt">
+

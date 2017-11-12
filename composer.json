@@ -1,0 +1,32 @@
+{
+    "name": "digicademy/vocabulary",
+    "type": "typo3-cms-extension",
+    "description": "LOD for TYPO3",
+    "homepage": "http://www.digitale-akademie.de",
+    "authors": [
+        {
+          "name": "Torsten Schrade",
+          "email": "Torsten.Schrade@adwmainz.de",
+          "role": "Developer",
+          "homepage": "http://www.adwmainz.de"
+        }
+    ],
+    "license": ["GPL-2.0+"],
+    "keywords": ["TYPO3", "History", "Digital Humanities", "RDF"],
+    "support": {
+        "issues": "https://github.com/digicademy/vocabulary/issues"
+    },
+    "version": "0.1.0",
+    "require": {
+        "typo3/cms-core": ">=7.6.0 || <=7.6.99"
+    },
+    "replace": {
+        "vocabulary": "self.version",
+        "typo3-ter/vocabulary": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+          "Digicademy\\Vocabulary\\": "Classes/"
+        }
+    }
+}

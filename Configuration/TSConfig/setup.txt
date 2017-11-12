@@ -1,0 +1,27 @@
+/*
+TCEFORM {
+	pages {
+		statements.PAGE_TSCONFIG_ID = 2
+	}
+	tx_vocabulary_domain_model_statements {
+		subject.suggest.default.pidList = 2
+		subject.PAGE_TSCONFIG_ID = 2
+		predicate.suggest.default.pidList = 2
+		predicate.PAGE_TSCONFIG_ID = 2
+		object.suggest.default.pidList = 2
+		object.PAGE_TSCONFIG_ID = 2
+	}
+	tx_vocabulary_domain_model_subjects {
+		namespace.PAGE_TSCONFIG_IDLIST = 2
+		namespace.PAGE_TSCONFIG_ID = 2
+	}
+	tx_vocabulary_domain_model_predicates {
+		namespace.PAGE_TSCONFIG_IDLIST = 2
+		namespace.PAGE_TSCONFIG_ID = 2
+	}
+	tx_vocabulary_domain_model_objects {
+		namespace.PAGE_TSCONFIG_IDLIST = 2
+		namespace.PAGE_TSCONFIG_ID = 2
+	}
+}
+*/

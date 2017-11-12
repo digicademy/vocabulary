@@ -1,0 +1,7 @@
+plugin.tx_vocabulary {
+    view {
+        layoutRootPaths.10 = EXT:vocabulary/Resources/Private/HTML/Layouts/
+        partialRootPaths.10 = EXT:vocabulary/Resources/Private/HTML/Partials/
+        templateRootPaths.10 = EXT:vocabulary/Resources/Private/HTML/Templates/
+    }
+}

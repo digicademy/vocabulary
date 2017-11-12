@@ -1,0 +1,36 @@
+## NEXT #########################################
+
+- switch namespace to Digicademy
+
+- switch wizard_add to 'script' and test editing
+
+- vocabulary
+-- is the tablename field really needed since prepend_tname doesn't have any effect?
+-- first test with statements for any record
+--- check how hard it is to integrate a makeLodifiable => quite hard, integrated later (@see CategoryRegistry)
+
+- default templates for
+-- showSelectedTerms
+-- showSelectedVocabulary
+
+- create new wizards at predicate + subject selects in statement table
+- create new wizard at possibly all select fields
+
+- RDF serializer => condense statements in RDF/XML + TTL output
+
+- bnodes
+-- uuid generator for bnodes
+-- table 'bnodes' => keeps uuids that can be reused as subjects/objects, have a BE title and are unique in the system
+-- bnodes could be made available via suggest wizard besides the value field
+
+- object value field could also have a wizard for subject/object creation
+
+- s/p/o's shoud be entities in domain model
+
+- write some helpful repository methods to retrieve values from s/p/o's
+-- maybe from a view helper?
+
+- composer.json
+
+- FLUID
+-- generate namespaces in template dynamically from all used

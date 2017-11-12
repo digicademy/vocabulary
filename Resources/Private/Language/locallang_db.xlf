@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2016-09-16T09:28:36Z" product-name="vocabulary">
+        <header/>
+        <body>
+
+            <trans-unit id="plugin.sheet.general">
+                <source>General Settings</source>
+            </trans-unit>
+            <trans-unit id="plugin.terms.selectedTerms">
+                <source>Selected Terms</source>
+            </trans-unit>
+            <trans-unit id="plugin.vocab.selectedVocabulary">
+                <source>Selected Vocabulary</source>
+            </trans-unit>
+
+            <trans-unit id="wizard_edit">
+                <source>Edit statement</source>
+            </trans-unit>
+
+            <trans-unit id="tx_vocabulary_domain_model_namespaces">
+                <source>Namespaces</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_namespaces.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_namespaces.description">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_namespaces.prefix">
+                <source>Prefix</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_namespaces.uri">
+                <source>Uri</source>
+            </trans-unit>
+
+            <trans-unit id="tx_vocabulary_domain_model_subjects">
+                <source>Subjects</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.type">
+                <source>Type</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.type.I.1">
+                <source>Uri</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.type.I.2">
+                <source>Blank node</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.type.I.3">
+                <source>Record</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.description">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.namespace">
+                <source>Namespace</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.value">
+                <source>Value</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.record">
+                <source>Record</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.tablename">
+                <source>Tablename</source>
+            </trans-unit>
+
+            <trans-unit id="tx_vocabulary_domain_model_predicates">
+                <source>Predicates</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_predicates.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_predicates.description">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_predicates.namespace">
+                <source>Namespace</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_predicates.value">
+                <source>Value</source>
+            </trans-unit>
+
+            <trans-unit id="tx_vocabulary_domain_model_objects">
+                <source>Objects</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.type">
+                <source>Type</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.type.I.1">
+                <source>Uri</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.type.I.2">
+                <source>Literal</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.type.I.3">
+                <source>Blank node</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.type.I.4">
+                <source>Record</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.namespace">
+                <source>Namespace</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.value">
+                <source>Value</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.lang">
+                <source>Lang</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.datatype">
+                <source>Datatype</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.record">
+                <source>Record</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_objects.tablename">
+                <source>Tablename</source>
+            </trans-unit>
+
+            <trans-unit id="tx_vocabulary_domain_model_statements">
+                <source>Statements</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_statements.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_statements.description">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_statements.subject">
+                <source>Subject</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_statements.predicate">
+                <source>Predicate</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_statements.object">
+                <source>Object</source>
+            </trans-unit>
+
+            <trans-unit id="tx_vocabulary_domain_model_terms">
+                <source>Terms</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_terms.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_terms.description">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_terms.statements">
+                <source>Statements</source>
+            </trans-unit>
+
+            <trans-unit id="tx_vocabulary_domain_model_vocabularies">
+                <source>Vocabularies</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_vocabularies.title">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_vocabularies.description">
+                <source>Description</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_vocabularies.terms">
+                <source>Terms</source>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>
