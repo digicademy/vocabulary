@@ -25,7 +25,7 @@ if (!defined('TYPO3_MODE')) {
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
     'Digicademy.vocabulary',
-    'Vocabulary',
+    'Vocab',
     'RDF Vocabulary: Selected Vocabulary'
 );
 
