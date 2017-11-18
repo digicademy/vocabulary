@@ -18,13 +18,13 @@ if (!defined('TYPO3_MODE')) {
 // PLUGINS
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'ADWLM.vocabulary',
+    'Digicademy.vocabulary',
     'Terms',
     'RDF Vocabulary: Selected Terms'
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'ADWLM.vocabulary',
+    'Digicademy.vocabulary',
     'Vocabulary',
     'RDF Vocabulary: Selected Vocabulary'
 );

@@ -4,7 +4,7 @@ if (!defined ('TYPO3_MODE'))     die ('Access denied.');
 // PLUGINS
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'ADWLM.' . $_EXTKEY,
+    'Digicademy.' . $_EXTKEY,
     'Terms',
     array(
         'Terms' => 'listSelectedTerms',
@@ -15,7 +15,7 @@ if (!defined ('TYPO3_MODE'))     die ('Access denied.');
 );
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'ADWLM.' . $_EXTKEY,
+    'Digicademy.' . $_EXTKEY,
     'Vocab',
     array(
         'Vocabularies' => 'showSelectedVocabulary',
