@@ -17,9 +17,13 @@ CREATE TABLE tx_vocabulary_domain_model_namespaces (
     endtime int(11) unsigned DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
-    KEY parent (pid),
+    KEY pid (pid),
 
-);
+    KEY title (title),
+    KEY prefix (prefix),
+    KEY uri (uri),
+
+) ENGINE=InnoDB;
 
 CREATE TABLE tx_vocabulary_domain_model_subjects (
 
@@ -45,9 +49,14 @@ CREATE TABLE tx_vocabulary_domain_model_subjects (
     endtime int(11) unsigned DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
-    KEY parent (pid),
+    KEY pid (pid),
 
-);
+    KEY type (type),
+    KEY title (title),
+    KEY value (value),
+    KEY namespace (namespace),
+
+) ENGINE=InnoDB;
 
 CREATE TABLE tx_vocabulary_domain_model_predicates (
 
@@ -70,9 +79,13 @@ CREATE TABLE tx_vocabulary_domain_model_predicates (
     sorting int(11) unsigned DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
-    KEY parent (pid),
+    KEY pid (pid),
 
-);
+    KEY title (title),
+    KEY value (value),
+    KEY namespace (namespace),
+
+) ENGINE=InnoDB;
 
 CREATE TABLE tx_vocabulary_domain_model_objects (
 
@@ -98,9 +111,16 @@ CREATE TABLE tx_vocabulary_domain_model_objects (
     endtime int(11) unsigned DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
-    KEY parent (pid),
+    KEY pid (pid),
 
-);
+    KEY type (type),
+    KEY lang (lang),
+    KEY datatype (datatype),
+    KEY namespace (namespace),
+    KEY tablename (tablename),
+    KEY record (record),
+
+) ENGINE=InnoDB;
 
 CREATE TABLE tx_vocabulary_domain_model_statements (
 
@@ -126,9 +146,15 @@ CREATE TABLE tx_vocabulary_domain_model_statements (
     sorting int(11) unsigned DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
-    KEY parent (pid),
+    KEY pid (pid),
 
-);
+    KEY subject (subject),
+    KEY predicate (predicate),
+    KEY object (object),
+    KEY term (term),
+    KEY records (records),
+
+) ENGINE=InnoDB;
 
 CREATE TABLE tx_vocabulary_domain_model_terms (
 
@@ -149,9 +175,12 @@ CREATE TABLE tx_vocabulary_domain_model_terms (
     endtime int(11) unsigned DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
-    KEY parent (pid),
+    KEY pid (pid),
 
-);
+    KEY title (title),
+    KEY statements (statements),
+
+) ENGINE=InnoDB;
 
 CREATE TABLE tx_vocabulary_domain_model_vocabularies (
 
@@ -172,9 +201,12 @@ CREATE TABLE tx_vocabulary_domain_model_vocabularies (
     endtime int(11) unsigned DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
-    KEY parent (pid),
+    KEY pid (pid),
 
-);
+    KEY title (title),
+    KEY terms (terms),
+
+) ENGINE=InnoDB;
 
 CREATE TABLE tx_vocabulary_vocabularies_terms_mm (
     uid_local int(11) unsigned DEFAULT '0' NOT NULL,
@@ -185,7 +217,7 @@ CREATE TABLE tx_vocabulary_vocabularies_terms_mm (
     KEY uid_local (uid_local),
     KEY uid_foreign (uid_foreign)
 
-) ENGINE=MyISAM;
+) ENGINE=InnoDB;
 
 CREATE TABLE tx_vocabulary_statements_records_mm (
 
@@ -201,16 +233,16 @@ CREATE TABLE tx_vocabulary_statements_records_mm (
     KEY uid_local (uid_local),
     KEY uid_foreign (uid_foreign)
 
-) ENGINE=MyISAM;
+) ENGINE=InnoDB;
 
 CREATE TABLE pages (
-
     statements int(11) unsigned DEFAULT '0' NOT NULL,
 
+    KEY statements (statements)
 );
 
 CREATE TABLE tt_content (
-
     statements int(11) unsigned DEFAULT '0' NOT NULL,
 
+    KEY statements (statements)
 );
