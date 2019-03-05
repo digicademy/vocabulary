@@ -79,8 +79,18 @@ class Subjects extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Generic record
+     *
+     * @var object
      */
     protected $item = null;
+
+    /**
+     * Document representations for the subject
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Digicademy\Vocabulary\Domain\Model\Representations> $representation
+     * @lazy
+     */
+    protected $representation;
 
     /**
      * Returns the type
@@ -237,6 +247,28 @@ class Subjects extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setItem($item)
     {
         $this->item = $item;
+    }
+
+    /**
+     * Returns the representations
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Digicademy\Vocabulary\Domain\Model\Representations> $representation
+     */
+    public function getRepresentation()
+    {
+        return $this->representation;
+    }
+
+    /**
+     * Sets the representations
+     *
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Digicademy\Vocabulary\Domain\Model\Representations> $representation
+     *
+     * @return void
+     */
+    public function setRepresentation($representation)
+    {
+        $this->representation = $representation;
     }
 
 }

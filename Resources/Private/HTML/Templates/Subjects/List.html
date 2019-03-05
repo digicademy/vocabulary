@@ -1,0 +1,9 @@
+<ul>
+<f:for each="{subjects}" as="subject">
+    <li>
+        <f:link.action action="about" arguments="{subject : subject}">
+            {subject.value}
+        </f:link.action>
+    </li>
+</f:for>
+</ul>

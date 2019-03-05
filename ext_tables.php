@@ -29,6 +29,12 @@ if (!defined('TYPO3_MODE')) {
     'RDF Vocabulary: Selected Vocabulary'
 );
 
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'Digicademy.vocabulary',
+    'About',
+    'RDF Vocabulary: About Service'
+);
+
 // FLEXFORMS
 
 $TCA['tt_content']['types']['list']['subtypes_addlist']['vocabulary_terms'] = 'pi_flexform';
@@ -52,3 +58,5 @@ $TCA['tt_content']['types']['list']['subtypes_addlist']['vocabulary_vocab'] = 'p
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_vocabulary_domain_model_terms');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_vocabulary_domain_model_vocabularies');
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_vocabulary_domain_model_representations');

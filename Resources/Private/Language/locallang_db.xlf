@@ -67,6 +67,34 @@
             <trans-unit id="tx_vocabulary_domain_model_subjects.tablename">
                 <source>Tablename</source>
             </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_subjects.representation">
+                <source>Document representation</source>
+            </trans-unit>
+
+            <trans-unit id="tx_vocabulary_domain_model_representations">
+                <source>Document Representations</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_representations.scheme">
+                <source>Scheme (without '://')</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_representations.authority">
+                <source>Authority</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_representations.path">
+                <source>Path (start with '/')</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_representations.query">
+                <source>Query (start with '&amp;')</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_representations.fragment">
+                <source>Fragment (without '#')</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_representations.content_type">
+                <source>Content Type</source>
+            </trans-unit>
+            <trans-unit id="tx_vocabulary_domain_model_representations.content_language">
+                <source>Content Language</source>
+            </trans-unit>
 
             <trans-unit id="tx_vocabulary_domain_model_predicates">
                 <source>Predicates</source>

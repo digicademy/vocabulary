@@ -1,6 +1,27 @@
 ## NEXT #########################################
 
-- switch namespace to Digicademy
+id=123
+&type=2004
+&tx_vocabulary_about%5Bsubject%5D=1995
+&tx_vocabulary_about%5Baction%5D=about
+&tx_vocabulary_about%5Bcontroller%5D=Subjects
+&tx_vocabulary_about%5Bformat%5D=rdfxml
+
+---
+
+- introduce document representations for subjects and objects (types: uri & record)
+
+- About Plugin
+-- repository: find all statements for subject => apply in template
+-- content negotiation in controller => check header and set response format
+-- offset, count and content degotiation for subject list
+
+-- json-ld templates
+
+- Add new type Resource Representation for object?
+-- use for 303 redirect to html?
+
+- transfer stuff from CVMA to vocabulary ext
 
 - switch wizard_add to 'script' and test editing
 
@@ -25,12 +46,8 @@
 
 - object value field could also have a wizard for subject/object creation
 
-- s/p/o's shoud be entities in domain model
-
 - write some helpful repository methods to retrieve values from s/p/o's
 -- maybe from a view helper?
-
-- composer.json
 
 - FLUID
 -- generate namespaces in template dynamically from all used

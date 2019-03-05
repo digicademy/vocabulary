@@ -20,12 +20,20 @@ return array(
         'iconfile' => 'EXT:vocabulary/Resources/Public/Icons/tx_vocabulary_domain_model_subjects.svg'
     ),
     'interface' => array(
-        'showRecordFieldList' => 'hidden, type, title, description, value, tablename, record',
+        'showRecordFieldList' => '
+            hidden, 
+            type, 
+            title, 
+            description, 
+            value, 
+            tablename, 
+            record,
+            representation',
     ),
     'types' => array(
-        '1' => array('showitem' => 'hidden, type, title, description, namespace, value, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '1' => array('showitem' => 'hidden, type, title, description, namespace, value, representation, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
         '2' => array('showitem' => 'hidden, type, title, description, value, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
-        '3' => array('showitem' => 'hidden, type, title, description, namespace, tablename, record, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
+        '3' => array('showitem' => 'hidden, type, title, description, namespace, tablename, record, value, representation, --div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, starttime, endtime'),
     ),
     'columns' => array(
         'hidden' => array(
@@ -183,6 +191,25 @@ return array(
                     ),
                 ),
             )
+        ),
+        'representation' => array(
+            'exclude' => 1,
+            'label' => 'LLL:EXT:vocabulary/Resources/Private/Language/locallang_db.xlf:tx_vocabulary_domain_model_subjects.representation',
+            'config' => array(
+                'type' => 'inline',
+                'foreign_table' => 'tx_vocabulary_domain_model_representations',
+                'foreign_field' => 'parent',
+                'foreign_table_field' => 'tablename',
+                'minitems' => 0,
+                'maxitems' => 999,
+                'appearance' => array(
+                    'collapseAll' => 1,
+                    'levelLinksPosition' => 'top',
+                    'showSynchronizationLink' => 1,
+                    'showPossibleLocalizationRecords' => 1,
+                    'showAllLocalizationLink' => 1
+                ),
+            ),
         ),
     ),
 );

@@ -65,6 +65,8 @@ class Objects extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 
     /**
      * Generic record
+     *
+     * @var object
      */
     protected $item = null;
 

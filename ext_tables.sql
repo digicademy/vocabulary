@@ -36,6 +36,7 @@ CREATE TABLE tx_vocabulary_domain_model_subjects (
     value varchar(255) DEFAULT '' NOT NULL,
 
     namespace int(11) DEFAULT '0' NOT NULL,
+    representation int(11) DEFAULT '0' NOT NULL,
 
     tablename varchar(255) DEFAULT '' NOT NULL,
     record varchar(255) DEFAULT '' NOT NULL,
@@ -55,6 +56,7 @@ CREATE TABLE tx_vocabulary_domain_model_subjects (
     KEY title (title),
     KEY value (value),
     KEY namespace (namespace),
+    KEY representation (representation),
 
 ) ENGINE=InnoDB;
 
@@ -119,6 +121,41 @@ CREATE TABLE tx_vocabulary_domain_model_objects (
     KEY namespace (namespace),
     KEY tablename (tablename),
     KEY record (record),
+
+) ENGINE=InnoDB;
+
+CREATE TABLE tx_vocabulary_domain_model_representations (
+
+    uid int(11) NOT NULL auto_increment,
+    pid int(11) DEFAULT '0' NOT NULL,
+
+    # generic 1:1 relation to parent subjects/objects
+    parent int(11) unsigned DEFAULT '0' NOT NULL,
+    tablename varchar(255) DEFAULT '' NOT NULL,
+
+    scheme varchar(255) DEFAULT '' NOT NULL,
+    authority varchar(255) DEFAULT '' NOT NULL,
+    path varchar(255) DEFAULT '' NOT NULL,
+    query varchar(255) DEFAULT '' NOT NULL,
+    fragment varchar(255) DEFAULT '' NOT NULL,
+    content_type varchar(255) DEFAULT '' NOT NULL,
+    content_language varchar(10) DEFAULT '' NOT NULL,
+
+    tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+    crdate int(11) unsigned DEFAULT '0' NOT NULL,
+    cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+    deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+    hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+    PRIMARY KEY (uid),
+    KEY parent (pid),
+
+    KEY parent (parent),
+    KEY tablename (tablename),
+    KEY scheme (scheme),
+    KEY authority (authority),
+    KEY content_type (content_type),
+    KEY content_language (content_language)
 
 ) ENGINE=InnoDB;
 
