@@ -68,23 +68,23 @@
                 <source>Tablename</source>
             </trans-unit>
             <trans-unit id="tx_vocabulary_domain_model_subjects.representation">
-                <source>Document representation</source>
+                <source>Representations</source>
             </trans-unit>
 
             <trans-unit id="tx_vocabulary_domain_model_representations">
-                <source>Document Representations</source>
+                <source>Representations</source>
             </trans-unit>
             <trans-unit id="tx_vocabulary_domain_model_representations.scheme">
-                <source>Scheme (without '://')</source>
+                <source>Scheme (without ://)</source>
             </trans-unit>
             <trans-unit id="tx_vocabulary_domain_model_representations.authority">
                 <source>Authority</source>
             </trans-unit>
             <trans-unit id="tx_vocabulary_domain_model_representations.path">
-                <source>Path (start with '/')</source>
+                <source>Path (start with /)</source>
             </trans-unit>
             <trans-unit id="tx_vocabulary_domain_model_representations.query">
-                <source>Query (start with '&amp;')</source>
+                <source>Query parameters (start with '&amp;')</source>
             </trans-unit>
             <trans-unit id="tx_vocabulary_domain_model_representations.fragment">
                 <source>Fragment (without '#')</source>

@@ -35,3 +35,11 @@ if (!defined ('TYPO3_MODE'))     die ('Access denied.');
         'Subjects' => '',
     )
 );
+
+// REGISTERES URI RESOLVER
+
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['vocabulary']['resolver'] = [
+    't3' => Digicademy\Vocabulary\Resolver\T3Resolver::class,
+    'http' => Digicademy\Vocabulary\Resolver\HttpResolver::class,
+    'https' => Digicademy\Vocabulary\Resolver\HttpsResolver::class,
+];

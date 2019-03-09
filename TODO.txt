@@ -1,20 +1,124 @@
+Rewrite to tx_lod:
+
+delete subject and object tables
+
+introduce three tables:
+resources (uris) => can be associated with a T3 record (former subjects and objects of type URI and records)
+bnodes => subjects and objects of type blank nodes
+literals => former objects of type literal
+
+this ensures uniqueness of resources
+
+change table statements
+subject field => allow table resources and blank nodes
+object field => allow table resources, blank nodes and literals
+
 ## NEXT #########################################
 
-id=123
-&type=2004
-&tx_vocabulary_about%5Bsubject%5D=1995
-&tx_vocabulary_about%5Baction%5D=about
-&tx_vocabulary_about%5Bcontroller%5D=Subjects
-&tx_vocabulary_about%5Bformat%5D=rdfxml
+- configure realUrl
+- finish about plugin just as much as necessary for production
+
+- bring stuff live and create/migrate data
+
+- implement resolver
+-- implement basic http resolver
+
+- do the rewrite tx_vocabulary => tx_lod (singular!)
 
 ---
 
-- introduce document representations for subjects and objects (types: uri & record)
+id=123
+&type=2004 => rewritten by fileName to about.xyz
+&tx_vocabulary_about%5Bsubject%5D=1995 => rewritten by realurl to subject value
+&tx_vocabulary_about%5Baction%5D=about => skipped (preVars)
+&tx_vocabulary_about%5Bcontroller%5D=Subjects (skipped (preVars)
+&tx_vocabulary_about%5Bformat%5D=rdfxml ???
+
+---
+
+scheme = handler type => t3 triggers internal resolving
+authority = handler keyword
+path = typolink parameter
+query = additionalParams
+fragment = section
+
+---
+
+## TYPO3 8.7
+
+# standard record link configuration from T3 V8 and higher
+
+TCEMAIN.linkHandler.image {
+	handler = TYPO3\CMS\Recordlist\LinkHandler\RecordLinkHandler
+	label = LLL:EXT:cvma/Resources/Private/Language/locallang.xlf:link.customTab
+	configuration {
+		table = sys_file_metadata
+	}
+	scanBefore = page
+}
+
+config.recordLinks.image {
+
+	forceLink = 0
+
+	typolink {
+		parameter = 13
+		additionalParams.data = field:uid
+		additionalParams.wrap = tx_cvma_archive[image]=|&tx_cvma_archive[action]=show&tx_cvma_archive[controller]=Gallery
+		section.data = field:fragment
+		useCacheHash = 1
+	}
+}
+
+plugin.tx_vocabulary_about {
+	settings {
+
+		# this section maps TYPO3 format keywords to correct mime types (for content negotiation)
+		formatToMediaTypeMapping {
+
+			html = text/html
+			rdfxml = application/rdf+xml
+			xmp = application/xml
+			json = application/json
+			ttl = text/turtle
+
+		}
+
+		resolver {
+
+			# each scheme can have it's own custom resolver
+#			scheme {
+#				# each resolver should implement one standard resolving mechanism for all authorities in this scheme
+#				# it should also respect special configurations specified authorities that should be treated different
+#				authority {
+#					# typolink configuration ($cObj->data is current representation record)
+#				}
+#			}
+
+			t3 {
+				# the t3 scheme implements the TYPO3 linkhandler (from 8.7 onwards but with backwards comp. for 7.6)
+				# each authority equals / can have it's own linkhandler (=linkhander keyword)
+				# the record authority implements the generic record linkhandler
+				record < config.recordLinks.image
+			}
+
+			http {
+				my\.domain\.com {
+					# typolink configuration ($cObj->data is current representation record)
+				}
+			}
+
+			https < .http
+		}
+	}
+}
+
+---
 
 - About Plugin
 -- repository: find all statements for subject => apply in template
 -- content negotiation in controller => check header and set response format
--- offset, count and content degotiation for subject list
+-- offset, count and content negotiation for subject list
 
 -- json-ld templates
 

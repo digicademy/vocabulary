@@ -28,18 +28,37 @@ namespace Digicademy\Vocabulary\Controller;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use Digicademy\Vocabulary\Domain\Repository\SubjectsRepository;
+use Digicademy\Vocabulary\Service\ResolverService;
 
 class SubjectsController extends ActionController
 {
 
     /**
-     * subjectsRepository
-     *
      * @var \Digicademy\Vocabulary\Domain\Repository\SubjectsRepository
-     * @inject
      */
     protected $subjectsRepository = null;
 
+    /**
+     * @var \Digicademy\Vocabulary\Service\ResolverService
+     */
+    protected $resolverService;
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface            $objectManager
+     * @param \Digicademy\Vocabulary\Domain\Repository\SubjectsRepository $subjectsRepository
+     * @param \Digicademy\Vocabulary\Service\ResolverService              $resolverService
+     */
+    public function __construct(
+        ObjectManagerInterface $objectManager,
+        SubjectsRepository $subjectsRepository,
+        ResolverService $resolverService
+    ) {
+        parent::__construct($objectManager);
+        $this->subjectsRepository = $subjectsRepository;
+        $this->resolverService = $resolverService;
+    }
 
     /**
      * Displays a list of subjects
@@ -49,11 +68,10 @@ class SubjectsController extends ActionController
     public function listAction()
     {
 
-// @TODO: offset & count
-
-// @TODO: recursive storage pids
-
 // @TODO: implement content negotiation switch (set format and type)
+
+// @TODO: subjectsRepository: offset & count
+// @TODO: subjectsRepository: recursive storage pids
 
         $subjects = $this->subjectsRepository->findAll();
         $this->view->assign('subjects', $subjects);
@@ -64,21 +82,60 @@ class SubjectsController extends ActionController
     }
 
     /**
-     * Shows metadata about a resource
+     * Returns metadata about a resource (or representations of the resource) in different content types
      *
      * @param \Digicademy\Vocabulary\Domain\Model\Subjects $subject
-     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @return void
      */
     public function aboutAction(
         \Digicademy\Vocabulary\Domain\Model\Subjects $subject
     ) {
 
-// @TODO: implement content negotiation switch (set format and type or redirect to representation)
+        // if accept header is set get a weighted list of accepted formats
+        $httpAcceptHeader = getenv('HTTP_ACCEPT');
+        if ($httpAcceptHeader) {
+            $acceptedMediaTypes = $this->resolverService->processAcceptHeader($httpAcceptHeader);
+        } else {
+            $acceptedMediaTypes[] = 'text/html';
+        }
 
-\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($subject, NULL, 5, FALSE, TRUE, FALSE, array(), array());
-die();
+        // get format of extbase request and set it first if it is not text/html and doesn't exist in header
+        $format = $this->request->getFormat();
+        if ($format != 'html' && array_key_exists($format, $this->settings['formatToMediaTypeMapping'])) {
+            $formatMediaType = $this->settings['formatToMediaTypeMapping'][$format];
+            // if this format is not in the accepted mime types insert it is inserted first place
+            if (!in_array($formatMediaType, $acceptedMediaTypes)) {
+                array_unshift($acceptedMediaTypes, $formatMediaType);
+            }
+        }
 
+        foreach ($acceptedMediaTypes as $mediaType) {
+            // if resource representations are available go through each representation and
+            // check if current media type is among representation content types; if yes call resolver
+            if ($subject->getRepresentation()) {
+                foreach ($subject->getRepresentation() as $key => $representation) {
+                    $contentType = $this->resolverService->processContentType($representation->getContentType());
+                    if ($contentType['mime'] == $mediaType) {
+                        // call representation resolver service
+                        $url = $this->resolverService->resolve($representation, $this->settings['resolver']);
+                        if (GeneralUtility::isValidUrl($url)) {
+                            $this->redirectToUri($url);
+                        }
+                    }
+                }
+            }
+
+            // look up if media type is among formatToMediaTypeMapping (= if yes it is a "generated representation")
+            if (in_array($mediaType, $this->settings['formatToMediaTypeMapping'])) {
+                $format = array_search($mediaType, $this->settings['formatToMediaTypeMapping']);
+                $this->request->setFormat($format);
+                break;
+            }
+        }
+
+// finds and assigns statements where this resource is in subject position
 // @TODO: $statements = $this->statementRepository->findBySubject($subject);
 
         $this->view->assign('subject', $subject);

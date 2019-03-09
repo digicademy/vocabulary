@@ -95,13 +95,6 @@ class Representations extends AbstractValueObject
     protected $contentLanguage;
 
     /**
-     * location
-     *
-     * @var \string
-     */
-    protected $location;
-
-    /**
      * Returns the parent
      *
      * @return \string $parent
@@ -297,28 +290,6 @@ class Representations extends AbstractValueObject
     public function setContentLanguage($contentLanguage)
     {
         $this->contentLanguage = $contentLanguage;
-    }
-
-    /**
-     * Returns the location
-     *
-     * @return string $location
-     */
-    public function getLocation()
-    {
-        return $this->location;
-    }
-
-    /**
-     * Sets the location
-     *
-     * @param string $location
-     *
-     * @return void
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
     }
 
 }
