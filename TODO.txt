@@ -1,3 +1,20 @@
+## NEXT #########################################
+
+- about plugin
+-- cacheable list action
+-- todos in controller
+-- add basic templates (nt, json-ld, rdf, ttl)
+-- configure xml,xmp page types
+-- finish about plugin just as much as necessary for production
+
+- resolver
+-- implement basic http resolver
+
+- bring stuff live and create/migrate data
+-- mechanism for creating subjects when images are created
+
+---
+
 Rewrite to tx_lod:
 
 delete subject and object tables
@@ -13,26 +30,25 @@ change table statements
 subject field => allow table resources and blank nodes
 object field => allow table resources, blank nodes and literals
 
-## NEXT #########################################
-
-- configure realUrl
-- finish about plugin just as much as necessary for production
-
-- bring stuff live and create/migrate data
-
-- implement resolver
--- implement basic http resolver
-
-- do the rewrite tx_vocabulary => tx_lod (singular!)
-
 ---
 
-id=123
-&type=2004 => rewritten by fileName to about.xyz
-&tx_vocabulary_about%5Bsubject%5D=1995 => rewritten by realurl to subject value
-&tx_vocabulary_about%5Baction%5D=about => skipped (preVars)
-&tx_vocabulary_about%5Bcontroller%5D=Subjects (skipped (preVars)
-&tx_vocabulary_about%5Bformat%5D=rdfxml ???
+id=123 => rewritten by realurl to 'id' or whatever (= pagePath)
+&tx_vocabulary_about%5Bsubject%5D=1995 => rewritten by realurl to /id/value (= fixedPostVars)
+&type=2004 => rewritten by realUrl to about.xyz (= fileName)
+
+&tx_vocabulary_about%5Baction%5D=about => skipped (by initializeAction and fixedPostVars)
+&tx_vocabulary_about%5Bcontroller%5D=Subjects skipped (by initializeAction and fixedPostVars)
+&tx_vocabulary_about%5Bformat%5D=rdfxml => ignored/suppressed (by initialize Action; switch is by pageType)
+
+&cHash => skipped (by realUrl config)
+
+/id/I385
+
+/id/I385/about.html
+
+/resources.html
+
+/resources/about.rdf?tx_vocabulary_about[offset]=2&tx_vocabulary_about[limit]=100
 
 ---
 
@@ -115,13 +131,6 @@ plugin.tx_vocabulary_about {
 
 ---
 
-- About Plugin
--- repository: find all statements for subject => apply in template
--- content negotiation in controller => check header and set response format
--- offset, count and content negotiation for subject list
-
--- json-ld templates
-
 - Add new type Resource Representation for object?
 -- use for 303 redirect to html?
 
@@ -155,3 +164,24 @@ plugin.tx_vocabulary_about {
 
 - FLUID
 -- generate namespaces in template dynamically from all used
+
+
+            // get format by page type (name/string of page type must equal extbase template format)
+            $this->format = $GLOBALS['TSFE']->tmpl->setup['types.'][$type];
+            $formatKey = $this->format . '.';
+
+            if (
+                $GLOBALS['TSFE']->tmpl->setup[$formatKey]['typeNum'] == $type
+                && $GLOBALS['TSFE']->tmpl->setup[$formatKey]['config.']['additionalHeaders.']
+            ) {
+                $additionalHeaders = $GLOBALS['TSFE']->tmpl->setup[$formatKey]['config.']['additionalHeaders.'];
+                foreach ($additionalHeaders as $additionalHeader) {
+                    if (preg_match('/Content-type:/', $additionalHeader['header'])) {
+                        $this->contentType = str_replace('Content-type:', '', $additionalHeader['header']);
+                    }
+                }
+            } else {
+// @TODO: throw exception: additionalHeader with content type must be set for this page type
+            }
+
+http://corpusvitrearum.local/id/I3440

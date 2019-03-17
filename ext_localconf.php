@@ -29,10 +29,10 @@ if (!defined ('TYPO3_MODE'))     die ('Access denied.');
     'Digicademy.vocabulary',
     'About',
     array(
-        'Subjects' => 'list, about',
+        'Subjects' => 'about',
     ),
     array(
-        'Subjects' => '',
+        'Subjects' => 'about',
     )
 );
 

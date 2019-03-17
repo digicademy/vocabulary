@@ -29,11 +29,18 @@ namespace Digicademy\Vocabulary\Controller;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use Digicademy\Vocabulary\Domain\Repository\SubjectsRepository;
+use \Digicademy\Vocabulary\Domain\Model\Subjects;
 use Digicademy\Vocabulary\Service\ResolverService;
 
 class SubjectsController extends ActionController
 {
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper
+     */
+    protected $dataMapper;
 
     /**
      * @var \Digicademy\Vocabulary\Domain\Repository\SubjectsRepository
@@ -46,29 +53,104 @@ class SubjectsController extends ActionController
     protected $resolverService;
 
     /**
+     * @var array
+     */
+    protected $acceptedMimeTypes = [];
+
+    /**
+     * @var array
+     */
+    protected $availableMimeTypes = [];
+
+    /**
+     * @var string
+     */
+    protected $contentType = 'text/html';
+
+    /**
+     * @var string
+     */
+    protected $format = 'html';
+
+    /**
      * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface            $objectManager
+     * @param \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper       $dataMapper
      * @param \Digicademy\Vocabulary\Domain\Repository\SubjectsRepository $subjectsRepository
      * @param \Digicademy\Vocabulary\Service\ResolverService              $resolverService
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
+        DataMapper $dataMapper,
         SubjectsRepository $subjectsRepository,
         ResolverService $resolverService
     ) {
         parent::__construct($objectManager);
+        $this->dataMapper = $dataMapper;
         $this->subjectsRepository = $subjectsRepository;
         $this->resolverService = $resolverService;
     }
 
+     /**
+      * @throws
+      */
+     public function aboutAction()
+     {
+        $pageType = GeneralUtility::_GP('type');
+
+        $this->determineFormatAndContentType($pageType);
+
+        // if page type is given set format and content type directly
+        if ($pageType > 0 || $pageType == 0 && $this->format == 'html') {
+
+            $this->request->setFormat($this->format);
+
+        // otherwise redirect to URL with correct page type
+        } else {
+
+            if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
+                $uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') . '/about.' . $this->format;
+            } else {
+                $targetPageType = array_search($this->contentType, $this->availableMimeTypes);
+                $uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') . '?type='. $targetPageType;
+            }
+
+            $this->redirectToUri($uri);
+        }
+
+        // look up subject by identifier if set, otherwise forward to list
+        if ($this->request->hasArgument('subject')) {
+
+            $result = $GLOBALS['TSFE']->sys_page->getRecordsByField(
+                'tx_vocabulary_domain_model_subjects',
+                'value',
+                $this->request->getArgument('subject'),
+                $whereClause = '',
+                $groupBy = '',
+                $orderBy = '',
+                '1'
+            );
+
+            // if subject is found redirect to about with uid and format as param else send 404
+            if (is_array($result)) {
+                $mappingResult = $this->dataMapper->map(Subjects::class, $result);
+                $this->resourceAction($mappingResult[0]);
+            } else {
+                $GLOBALS['TSFE']->pageNotFoundAndExit();
+            }
+
+        } else {
+            $GLOBALS['TSFE']->pageNotFoundAndExit();
+        }
+
+     }
+
     /**
-     * Displays a list of subjects
+     * Displays a list of resources
      *
      * @return void
      */
-    public function listAction()
+    private function listAction()
     {
-
-// @TODO: implement content negotiation switch (set format and type)
 
 // @TODO: subjectsRepository: offset & count
 // @TODO: subjectsRepository: recursive storage pids
@@ -82,42 +164,24 @@ class SubjectsController extends ActionController
     }
 
     /**
-     * Returns metadata about a resource (or representations of the resource) in different content types
+     * Returns metadata about a resource in different content types / document representations
      *
      * @param \Digicademy\Vocabulary\Domain\Model\Subjects $subject
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @return void
      */
-    public function aboutAction(
-        \Digicademy\Vocabulary\Domain\Model\Subjects $subject
+    private function resourceAction(
+        Subjects $subject
     ) {
 
-        // if accept header is set get a weighted list of accepted formats
-        $httpAcceptHeader = getenv('HTTP_ACCEPT');
-        if ($httpAcceptHeader) {
-            $acceptedMediaTypes = $this->resolverService->processAcceptHeader($httpAcceptHeader);
-        } else {
-            $acceptedMediaTypes[] = 'text/html';
-        }
-
-        // get format of extbase request and set it first if it is not text/html and doesn't exist in header
-        $format = $this->request->getFormat();
-        if ($format != 'html' && array_key_exists($format, $this->settings['formatToMediaTypeMapping'])) {
-            $formatMediaType = $this->settings['formatToMediaTypeMapping'][$format];
-            // if this format is not in the accepted mime types insert it is inserted first place
-            if (!in_array($formatMediaType, $acceptedMediaTypes)) {
-                array_unshift($acceptedMediaTypes, $formatMediaType);
-            }
-        }
-
-        foreach ($acceptedMediaTypes as $mediaType) {
+        foreach ($this->acceptedMimeTypes as $mimeType) {
             // if resource representations are available go through each representation and
             // check if current media type is among representation content types; if yes call resolver
             if ($subject->getRepresentation()) {
                 foreach ($subject->getRepresentation() as $key => $representation) {
                     $contentType = $this->resolverService->processContentType($representation->getContentType());
-                    if ($contentType['mime'] == $mediaType) {
+                    if ($contentType['mime'] == $mimeType && $contentType['mime'] == $this->contentType) {
                         // call representation resolver service
                         $url = $this->resolverService->resolve($representation, $this->settings['resolver']);
                         if (GeneralUtility::isValidUrl($url)) {
@@ -127,10 +191,8 @@ class SubjectsController extends ActionController
                 }
             }
 
-            // look up if media type is among formatToMediaTypeMapping (= if yes it is a "generated representation")
-            if (in_array($mediaType, $this->settings['formatToMediaTypeMapping'])) {
-                $format = array_search($mediaType, $this->settings['formatToMediaTypeMapping']);
-                $this->request->setFormat($format);
+            // if $mimeType equals $contentType deliver a "generated representation"
+            if ($mimeType == $this->contentType) {
                 break;
             }
         }
@@ -143,6 +205,74 @@ class SubjectsController extends ActionController
         $this->view->assign('arguments', $this->request->getArguments());
 
         $this->view->assign('settings', $this->settings);
+    }
+
+// @TODO: think about content negotiation service and move following logic
+
+    private function getAcceptedMimeTypes()
+    {
+        // if accept header is set get a weighted list of accepted formats
+        $httpAcceptHeader = getenv('HTTP_ACCEPT');
+        if ($httpAcceptHeader) {
+            $this->acceptedMimeTypes = $this->resolverService->processAcceptHeader($httpAcceptHeader);
+        } else {
+            $this->acceptedMimeTypes[] = 'text/html';
+        }
+    }
+
+    private function getAvailableMimeTypes()
+    {
+        // compile available content types by page type (header: Content-type:XY must be set in TypoScript)
+        $this->availableMimeTypes[0] = 'text/html';
+        foreach ($GLOBALS['TSFE']->tmpl->setup['types.'] as $key => $type) {
+            if ($type == 'page') continue;
+            $type = $type . '.';
+            if (
+                $GLOBALS['TSFE']->tmpl->setup[$type]['typeNum'] == $key
+                && $GLOBALS['TSFE']->tmpl->setup[$type]['config.']['additionalHeaders.']
+            ) {
+                $additionalHeaders = $GLOBALS['TSFE']->tmpl->setup[$type]['config.']['additionalHeaders.'];
+                foreach ($additionalHeaders as $additionalHeader) {
+                    if (preg_match('/Content-type:/', $additionalHeader['header'])) {
+                        $this->availableMimeTypes[$key] = str_replace('Content-type:', '', $additionalHeader['header']);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param integer $pageType
+     */
+    private function determineFormatAndContentType($pageType)
+    {
+        $this->getAcceptedMimeTypes();
+        $this->getAvailableMimeTypes();
+
+        // if a page type is already set, format and content type can be set directly
+        if ($pageType > 0) {
+
+            $this->contentType = $this->availableMimeTypes[$pageType];
+            $this->format = $GLOBALS['TSFE']->tmpl->setup['types.'][$pageType];
+
+        // if no page type is set compare accepted mime types with available mime types and set best format
+        // reminder: $this->acceptedMimeTypes is in order from best to least format
+        } else {
+
+            foreach ($this->acceptedMimeTypes as $mimeType) {
+                if (in_array($mimeType, $this->availableMimeTypes)) {
+                    $type = array_search($mimeType, $this->availableMimeTypes);
+                    if ($type == 0) {
+                        continue;
+                    } else {
+                        $this->format = $GLOBALS['TSFE']->tmpl->setup['types.'][$type];
+                    }
+                    $this->contentType = $this->availableMimeTypes[$type];
+                    break;
+                }
+            }
+        }
+
     }
 
 }

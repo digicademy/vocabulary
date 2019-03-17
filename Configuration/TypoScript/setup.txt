@@ -1,6 +1,9 @@
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:vocabulary/Configuration/TypoScript/HTML/setup.txt">
 
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:vocabulary/Configuration/TypoScript/RDFXML/setup.txt">
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:vocabulary/Configuration/TypoScript/NT/setup.txt">
+
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:vocabulary/Configuration/TypoScript/JSONLD/setup.txt">
+
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:vocabulary/Configuration/TypoScript/RDF/setup.txt">
 
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:vocabulary/Configuration/TypoScript/TTL/setup.txt">
-

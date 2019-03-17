@@ -1,0 +1,14 @@
+[globalVar = GP : type = 2004]
+
+# set the view directories
+plugin.tx_vocabulary.view {
+    layoutRootPaths.10 = EXT:vocabulary/Resources/Private/RDF/Layouts/
+    partialRootPaths.10 = EXT:vocabulary/Resources/Private/RDF/Partials/
+    templateRootPaths.10 = EXT:vocabulary/Resources/Private/RDF/Templates/
+}
+
+# disable outer wraps for tt_content
+tt_content.stdWrap >
+lib.stdheader >
+
+[global]

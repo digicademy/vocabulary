@@ -1,12 +1,12 @@
-ttl = PAGE
-ttl {
+jsonld = PAGE
+jsonld {
 
-    typeNum = 2011
+    typeNum = 2014
 
     config {
         disableAllHeaderCode = 1
         additionalHeaders {
-            10.header = Content-type:text/turtle
+            10.header = Content-type:application/ld+json
         }
         admPanel = 0
         xhtml_cleaning = 0
@@ -19,15 +19,15 @@ ttl {
         value (
 <note>
     Please call this view using the &amp;pluginUid parameter and the according arguments for the extbase action you would like to execute with this plugin.
-    Example: www.my-site.xy/index.php?type=2011&amp;pluginUid=###PLUGIN_UID###&amp;tx_extbase_extension[controller]=###CONTROLLER###&amp;tx_extbase_extension[format]=ttl
+    Example: www.my-site.xy/index.php?type=2004&amp;pluginUid=###PLUGIN_UID###&amp;tx_extbase_extension[controller]=###CONTROLLER###&amp;tx_extbase_extension[format]=jsonld
 </note>
 )
     }
 }
 
 [globalVar = GP : pluginUid > 0]
-ttl.10 >
-ttl {
+jsonld.10 >
+jsonld {
     10 = RECORDS
     10 {
         source.data = GP:pluginUid

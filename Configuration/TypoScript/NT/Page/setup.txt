@@ -1,11 +1,13 @@
-rdfxml = PAGE
-rdfxml {
+nt = PAGE
+nt {
 
-    typeNum = 2004
+    typeNum = 2013
 
     config {
         disableAllHeaderCode = 1
-        additionalHeaders = Content-type:application/rdf+xml
+        additionalHeaders {
+            10.header = Content-type:application/n-triples
+        }
         admPanel = 0
         xhtml_cleaning = 0
         disablePrefixComment = 1
@@ -17,15 +19,15 @@ rdfxml {
         value (
 <note>
     Please call this view using the &amp;pluginUid parameter and the according arguments for the extbase action you would like to execute with this plugin.
-    Example: www.my-site.xy/index.php?type=2004&amp;pluginUid=###PLUGIN_UID###&amp;tx_extbase_extension[controller]=###CONTROLLER###&amp;tx_extbase_extension[format]=rdfxml
+    Example: www.my-site.xy/index.php?type=2013&amp;pluginUid=###PLUGIN_UID###&amp;tx_extbase_extension[controller]=###CONTROLLER###&amp;tx_extbase_extension[format]=nt
 </note>
 )
     }
 }
 
 [globalVar = GP : pluginUid > 0]
-rdfxml.10 >
-rdfxml {
+nt.10 >
+nt {
     10 = RECORDS
     10 {
         source.data = GP:pluginUid
