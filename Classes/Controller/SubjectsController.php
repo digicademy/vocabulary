@@ -100,7 +100,7 @@ class SubjectsController extends ActionController
         $this->determineFormatAndContentType($pageType);
 
         // if page type is given set format and content type directly
-        if ($pageType > 0 || $pageType == 0 && $this->format == 'html') {
+        if ($pageType > 0) {
 
             $this->request->setFormat($this->format);
 
@@ -139,7 +139,9 @@ class SubjectsController extends ActionController
             }
 
         } else {
-            $GLOBALS['TSFE']->pageNotFoundAndExit();
+
+            $this->listAction();
+
         }
 
      }
@@ -155,12 +157,15 @@ class SubjectsController extends ActionController
 // @TODO: subjectsRepository: offset & count
 // @TODO: subjectsRepository: recursive storage pids
 
+        $this->view->assign('action', 'list');
+
         $subjects = $this->subjectsRepository->findAll();
         $this->view->assign('subjects', $subjects);
 
         $this->view->assign('arguments', $this->request->getArguments());
 
         $this->view->assign('settings', $this->settings);
+
     }
 
     /**
@@ -199,6 +204,8 @@ class SubjectsController extends ActionController
 
 // finds and assigns statements where this resource is in subject position
 // @TODO: $statements = $this->statementRepository->findBySubject($subject);
+
+        $this->view->assign('action', 'resource');
 
         $this->view->assign('subject', $subject);
 

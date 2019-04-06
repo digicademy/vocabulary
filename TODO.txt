@@ -1,11 +1,10 @@
 ## NEXT #########################################
 
 - about plugin
--- cacheable list action
 -- todos in controller
--- add basic templates (nt, json-ld, rdf, ttl)
--- configure xml,xmp page types
 -- finish about plugin just as much as necessary for production
+-- add basic templates (nt, json-ld, rdf, ttl)
+-- configure xml (lido) and xmp page types
 
 - resolver
 -- implement basic http resolver
@@ -46,9 +45,12 @@ id=123 => rewritten by realurl to 'id' or whatever (= pagePath)
 
 /id/I385/about.html
 
-/resources.html
+/id.html
 
-/resources/about.rdf?tx_vocabulary_about[offset]=2&tx_vocabulary_about[limit]=100
+/id/about.rdf?tx_vocabulary_about[offset]=2&tx_vocabulary_about[limit]=100
+
+- about plugin
+-- think about cacheable list action => seems not feasable => check performance
 
 ---
 

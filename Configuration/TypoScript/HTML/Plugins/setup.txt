@@ -1,7 +1,6 @@
-config.tx_extbase.persistence.classes {
-    ADWLM\Cvma\Domain\Model\Metadata.mapping.tableName = sys_file_metadata
-}
+[globalVar = GP : type = 1991]
 
+# set the view directories
 plugin.tx_vocabulary {
     view {
         layoutRootPaths.10 = EXT:vocabulary/Resources/Private/HTML/Layouts/
@@ -9,3 +8,5 @@ plugin.tx_vocabulary {
         templateRootPaths.10 = EXT:vocabulary/Resources/Private/HTML/Templates/
     }
 }
+
+[global]
