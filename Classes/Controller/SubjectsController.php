@@ -1,4 +1,5 @@
 <?php
+
 namespace Digicademy\Vocabulary\Controller;
 
 /***************************************************************
@@ -26,13 +27,14 @@ namespace Digicademy\Vocabulary\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Digicademy\Vocabulary\Domain\Model\Subjects;
+use Digicademy\Vocabulary\Domain\Repository\SubjectsRepository;
+use Digicademy\Vocabulary\Domain\Repository\StatementsRepository;
+use Digicademy\Vocabulary\Service\ResolverService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use Digicademy\Vocabulary\Domain\Repository\SubjectsRepository;
-use \Digicademy\Vocabulary\Domain\Model\Subjects;
-use Digicademy\Vocabulary\Service\ResolverService;
 
 class SubjectsController extends ActionController
 {
@@ -46,6 +48,11 @@ class SubjectsController extends ActionController
      * @var \Digicademy\Vocabulary\Domain\Repository\SubjectsRepository
      */
     protected $subjectsRepository = null;
+
+    /**
+     * @var \Digicademy\Vocabulary\Domain\Repository\StatementsRepository
+     */
+    protected $statementsRepository = null;
 
     /**
      * @var \Digicademy\Vocabulary\Service\ResolverService
@@ -73,28 +80,40 @@ class SubjectsController extends ActionController
     protected $format = 'html';
 
     /**
+     * Initializes the controller and dependencies
+     *
      * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface            $objectManager
-     * @param \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper       $dataMapper
+     * @param \TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper    $dataMapper
      * @param \Digicademy\Vocabulary\Domain\Repository\SubjectsRepository $subjectsRepository
+     * @param \Digicademy\Vocabulary\Domain\Repository\StatementsRepository $statementsRepository
      * @param \Digicademy\Vocabulary\Service\ResolverService              $resolverService
      */
     public function __construct(
         ObjectManagerInterface $objectManager,
         DataMapper $dataMapper,
         SubjectsRepository $subjectsRepository,
+        StatementsRepository $statementsRepository,
         ResolverService $resolverService
     ) {
         parent::__construct($objectManager);
         $this->dataMapper = $dataMapper;
         $this->subjectsRepository = $subjectsRepository;
+        $this->statementsRepository = $statementsRepository;
         $this->resolverService = $resolverService;
     }
 
-     /**
-      * @throws
-      */
-     public function aboutAction()
-     {
+    /**
+     * Main action and entry point of this controller. Returns metadata either about a single resource
+     * OR a list of resources. In contrast to a standard TYPO3 action controller this action uses two
+     * 'sub actions'. The reason for this logic is to keep request arguments as concise as possible:
+     *
+     * ROOT/ENTRYPOINT/ABOUT => list of resources
+     * ROOT/ENTRYPOINT/RESOURCE/ABOUT => single resource
+     *
+     * @throws
+     */
+    public function aboutAction()
+    {
         $pageType = GeneralUtility::_GP('type');
 
         $this->determineFormatAndContentType($pageType);
@@ -104,20 +123,22 @@ class SubjectsController extends ActionController
 
             $this->request->setFormat($this->format);
 
-        // otherwise redirect to URL with correct page type
+            // otherwise redirect to URL including correct page type
         } else {
 
             if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'])) {
                 $uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') . '/about.' . $this->format;
             } else {
                 $targetPageType = array_search($this->contentType, $this->availableMimeTypes);
-                $uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') . '?type='. $targetPageType;
+                $uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') . '?type=' . $targetPageType;
             }
+
+// TODO: think about configurable redirection including cHash (=> cacheable content)
 
             $this->redirectToUri($uri);
         }
 
-        // look up subject by identifier if set, otherwise forward to list
+        // look up subject by identifier, otherwise forward to list
         if ($this->request->hasArgument('subject')) {
 
             $result = $GLOBALS['TSFE']->sys_page->getRecordsByField(
@@ -130,7 +151,7 @@ class SubjectsController extends ActionController
                 '1'
             );
 
-            // if subject is found redirect to about with uid and format as param else send 404
+            // if subject is found, redirect to resourceAction with uid and format as param, else send 404
             if (is_array($result)) {
                 $mappingResult = $this->dataMapper->map(Subjects::class, $result);
                 $this->resourceAction($mappingResult[0]);
@@ -138,29 +159,27 @@ class SubjectsController extends ActionController
                 $GLOBALS['TSFE']->pageNotFoundAndExit();
             }
 
+        // no subject, forward to list
         } else {
-
             $this->listAction();
-
         }
-
-     }
+    }
 
     /**
-     * Displays a list of resources
+     * Returns metadata about a list of resources in different content types / document representations
      *
      * @return void
      */
     private function listAction()
     {
 
-// @TODO: subjectsRepository: offset & count
+// @TODO: subjectsRepository: offset & limit
 // @TODO: subjectsRepository: recursive storage pids
 
         $this->view->assign('action', 'list');
 
         $subjects = $this->subjectsRepository->findAll();
-        $this->view->assign('subjects', $subjects);
+        $this->view->assign('resources', $subjects);
 
         $this->view->assign('arguments', $this->request->getArguments());
 
@@ -169,9 +188,10 @@ class SubjectsController extends ActionController
     }
 
     /**
-     * Returns metadata about a resource in different content types / document representations
+     * Returns metadata about a single resource in different content types / document representations
      *
      * @param \Digicademy\Vocabulary\Domain\Model\Subjects $subject
+     *
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @return void
@@ -202,20 +222,30 @@ class SubjectsController extends ActionController
             }
         }
 
-// finds and assigns statements where this resource is in subject position
-// @TODO: $statements = $this->statementRepository->findBySubject($subject);
-
+        // assign current action for disambiguation in about template
         $this->view->assign('action', 'resource');
 
-        $this->view->assign('subject', $subject);
+        // assign the resource
+        $this->view->assign('resource', $subject);
 
+        // assign statements about the resource
+        $statements = $this->statementsRepository->findBySubject($subject);
+        $this->view->assign('statements', $statements);
+
+        // assign current arguments
         $this->view->assign('arguments', $this->request->getArguments());
 
+        // assign current settings
         $this->view->assign('settings', $this->settings);
     }
 
 // @TODO: think about content negotiation service and move following logic
 
+    /**
+     * Compiles an array of accepted mime types from client
+     *
+     * @return void
+     */
     private function getAcceptedMimeTypes()
     {
         // if accept header is set get a weighted list of accepted formats
@@ -227,12 +257,19 @@ class SubjectsController extends ActionController
         }
     }
 
+    /**
+     * Compiles available content types by page type from TypoScript configuration
+     * (header: Content-type:XY must be set in TypoScript)
+     *
+     * @return void
+     */
     private function getAvailableMimeTypes()
     {
-        // compile available content types by page type (header: Content-type:XY must be set in TypoScript)
         $this->availableMimeTypes[0] = 'text/html';
         foreach ($GLOBALS['TSFE']->tmpl->setup['types.'] as $key => $type) {
-            if ($type == 'page') continue;
+            if ($type == 'page') {
+                continue;
+            }
             $type = $type . '.';
             if (
                 $GLOBALS['TSFE']->tmpl->setup[$type]['typeNum'] == $key
@@ -249,7 +286,14 @@ class SubjectsController extends ActionController
     }
 
     /**
+     * Content negotiation: Determines the best mime type for the response by negotiating
+     * between mime types accepted by the client and mime types available from TypoScript.
+     * Available mime types are defined by page types. Additionally, each resource (subject)
+     * can forward directly to different document representations (configured in each record).
+     *
      * @param integer $pageType
+     *
+     * @return void
      */
     private function determineFormatAndContentType($pageType)
     {

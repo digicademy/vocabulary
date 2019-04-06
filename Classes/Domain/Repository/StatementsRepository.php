@@ -30,13 +30,13 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
- * The repository for vocabularies
+ * The repository for statements
  */
-class SubjectsRepository extends Repository
+class StatementsRepository extends Repository
 {
 
     protected $defaultOrderings = array(
-        'value' => QueryInterface::ORDER_ASCENDING
+        'subject' => QueryInterface::ORDER_ASCENDING
     );
 
 }

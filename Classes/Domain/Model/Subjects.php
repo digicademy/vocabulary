@@ -71,6 +71,13 @@ class Subjects extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $value;
 
     /**
+     * tablename
+     *
+     * @var \string
+     */
+    protected $tablename;
+
+    /**
      * record
      *
      * @var \string
@@ -200,6 +207,28 @@ class Subjects extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setValue($value)
     {
         $this->value = $value;
+    }
+
+    /**
+     * Returns the tablename
+     *
+     * @return \string $tablename
+     */
+    public function getTablename()
+    {
+        return $this->tablename;
+    }
+
+    /**
+     * Sets the tablename
+     *
+     * @param \string $tablename
+     *
+     * @return void
+     */
+    public function setTablename($tablename)
+    {
+        $this->tablename = $tablename;
     }
 
     /**

@@ -1,16 +1,17 @@
 ## NEXT #########################################
 
 - about plugin
--- todos in controller
--- finish about plugin just as much as necessary for production
--- add basic templates (nt, json-ld, rdf, ttl)
--- configure xml (lido) and xmp page types
+-- subjectsRepository->findResources($offset,$limit)
+-- add basic (empty) templates to vocabulary extension and website extension (nt, json-ld, rdf, ttl)
+-- configure xml (lido) and xmp page types and templates
 
 - resolver
 -- implement basic http resolver
 
-- bring stuff live and create/migrate data
+- bring stuff live
+-- write eID script to migrate metadata uids to subjects
 -- mechanism for creating subjects when images are created
+-- configure forwarding from id.corpusvitrearum.de
 
 ---
 
@@ -50,7 +51,9 @@ id=123 => rewritten by realurl to 'id' or whatever (= pagePath)
 /id/about.rdf?tx_vocabulary_about[offset]=2&tx_vocabulary_about[limit]=100
 
 - about plugin
--- think about cacheable list action => seems not feasable => check performance
+-- think about cacheable actions => configurable cHash calculation durign redirection => check performance
+-- think about content negotiation service and move logic from controller
+-- todos in controller
 
 ---
 
