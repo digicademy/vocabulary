@@ -169,19 +169,49 @@ class SubjectsController extends ActionController
      * Returns metadata about a list of resources in different content types / document representations
      *
      * @return void
+     * @throws
      */
     private function listAction()
     {
 
-// @TODO: subjectsRepository: offset & limit
 // @TODO: subjectsRepository: recursive storage pids
+
+        $arguments = $this->request->getArguments();
+
+        ($arguments['limit']) ? $limit = (int)$arguments['limit'] : $limit = 100;
+        if ($limit > 500) $limit = 500;
+
+        $totalItems = $this->subjectsRepository->countAll();
+        $maxOffset = (int)floor($totalItems / $limit);
+
+        if ($arguments['offset']) {
+            ($arguments['offset'] <= $maxOffset) ? $offset = (int)$arguments['offset'] : $offset = $maxOffset;
+        } else {
+            $offset = 0;
+            $this->request->setArgument('offset', 0);
+        }
+
+        $subjects = $this->subjectsRepository->findAll()
+            ->getQuery()
+            ->setOffset($offset)
+            ->setLimit($limit)
+            ->execute();
+
+        // pagination
+        $pagination = ['first' => 0];
+        $pagination['last'] = $maxOffset;
+        ($offset <= 1) ? $pagination['previous'] = 0 : $pagination['previous'] = $offset - 1;
+        ($offset < $maxOffset) ? $pagination['next'] = $offset + 1 : $pagination['next'] = $maxOffset;
 
         $this->view->assign('action', 'list');
 
-        $subjects = $this->subjectsRepository->findAll();
+        $this->view->assign('totalItems', $totalItems);
+
+        $this->view->assign('pagination', $pagination);
+
         $this->view->assign('resources', $subjects);
 
-        $this->view->assign('arguments', $this->request->getArguments());
+        $this->view->assign('arguments', $arguments);
 
         $this->view->assign('settings', $this->settings);
 

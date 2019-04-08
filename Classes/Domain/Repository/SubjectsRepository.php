@@ -29,9 +29,6 @@ namespace Digicademy\Vocabulary\Domain\Repository;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
-/**
- * The repository for vocabularies
- */
 class SubjectsRepository extends Repository
 {
 

@@ -1,17 +1,18 @@
 ## NEXT #########################################
 
 - about plugin
--- subjectsRepository->findResources($offset,$limit)
--- add basic (empty) templates to vocabulary extension and website extension (nt, json-ld, rdf, ttl)
+-- add basic templates to
+--- website extension (nt, json-ld, rdf, ttl)
+--- vocabulary extension
 -- configure xml (lido) and xmp page types and templates
 
 - resolver
 -- implement basic http resolver
 
 - bring stuff live
--- write eID script to migrate metadata uids to subjects
--- mechanism for creating subjects when images are created
--- configure forwarding from id.corpusvitrearum.de
+-- configure redirects from id.corpusvitrearum.de
+
+- use hydra
 
 ---
 
@@ -48,12 +49,14 @@ id=123 => rewritten by realurl to 'id' or whatever (= pagePath)
 
 /id.html
 
-/id/about.rdf?tx_vocabulary_about[offset]=2&tx_vocabulary_about[limit]=100
+/id/about.rdf?tx_vocabulary_about[offset]=1&tx_vocabulary_about[limit]=100
 
 - about plugin
--- think about cacheable actions => configurable cHash calculation durign redirection => check performance
+-- think about cacheable actions => configurable cHash calculation during redirection => check performance
 -- think about content negotiation service and move logic from controller
--- todos in controller
+-- remaining todos in controller
+
+-- mechanism for creating subjects when images are created
 
 ---
 
@@ -94,20 +97,9 @@ config.recordLinks.image {
 plugin.tx_vocabulary_about {
 	settings {
 
-		# this section maps TYPO3 format keywords to correct mime types (for content negotiation)
-		formatToMediaTypeMapping {
-
-			html = text/html
-			rdfxml = application/rdf+xml
-			xmp = application/xml
-			json = application/json
-			ttl = text/turtle
-
-		}
-
 		resolver {
 
-			# each scheme can have it's own custom resolver
+			# each scheme can have its own custom resolver
 #			scheme {
 #				# each resolver should implement one standard resolving mechanism for all authorities in this scheme
 #				# it should also respect special configurations specified authorities that should be treated different
@@ -169,24 +161,3 @@ plugin.tx_vocabulary_about {
 
 - FLUID
 -- generate namespaces in template dynamically from all used
-
-
-            // get format by page type (name/string of page type must equal extbase template format)
-            $this->format = $GLOBALS['TSFE']->tmpl->setup['types.'][$type];
-            $formatKey = $this->format . '.';
-
-            if (
-                $GLOBALS['TSFE']->tmpl->setup[$formatKey]['typeNum'] == $type
-                && $GLOBALS['TSFE']->tmpl->setup[$formatKey]['config.']['additionalHeaders.']
-            ) {
-                $additionalHeaders = $GLOBALS['TSFE']->tmpl->setup[$formatKey]['config.']['additionalHeaders.'];
-                foreach ($additionalHeaders as $additionalHeader) {
-                    if (preg_match('/Content-type:/', $additionalHeader['header'])) {
-                        $this->contentType = str_replace('Content-type:', '', $additionalHeader['header']);
-                    }
-                }
-            } else {
-// @TODO: throw exception: additionalHeader with content type must be set for this page type
-            }
-
-http://corpusvitrearum.local/id/I3440
