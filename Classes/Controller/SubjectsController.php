@@ -133,7 +133,7 @@ class SubjectsController extends ActionController
                 $uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') . '?type=' . $targetPageType;
             }
 
-// TODO: think about configurable redirection including cHash (=> cacheable content)
+// TODO: think about configurable redirection including cHash (=> cacheable content?)
 
             $this->redirectToUri($uri);
         }
@@ -182,14 +182,16 @@ class SubjectsController extends ActionController
         if ($limit > 500) $limit = 500;
 
         $totalItems = $this->subjectsRepository->countAll();
-        $maxOffset = (int)floor($totalItems / $limit);
+        $totalPages = (int)floor($totalItems / $limit);
 
-        if ($arguments['offset']) {
-            ($arguments['offset'] <= $maxOffset) ? $offset = (int)$arguments['offset'] : $offset = $maxOffset;
+        if ($arguments['page']) {
+            ($arguments['page'] <= $totalPages) ? $page = (int)$arguments['page'] : $page = $totalPages;
         } else {
-            $offset = 0;
-            $this->request->setArgument('offset', 0);
+            $page = 1;
+            $this->request->setArgument('page', 0);
         }
+
+        $offset = ($page - 1) * $limit;
 
         $subjects = $this->subjectsRepository->findAll()
             ->getQuery()
@@ -198,10 +200,10 @@ class SubjectsController extends ActionController
             ->execute();
 
         // pagination
-        $pagination = ['first' => 0];
-        $pagination['last'] = $maxOffset;
-        ($offset <= 1) ? $pagination['previous'] = 0 : $pagination['previous'] = $offset - 1;
-        ($offset < $maxOffset) ? $pagination['next'] = $offset + 1 : $pagination['next'] = $maxOffset;
+        $pagination = ['first' => 1];
+        $pagination['last'] = $totalPages;
+        ($page <= 1) ? $pagination['previous'] = 1 : $pagination['previous'] = $page - 1;
+        ($page < $totalPages) ? $pagination['next'] = $page + 1 : $pagination['next'] = $totalPages;
 
         $this->view->assign('action', 'list');
 

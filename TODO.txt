@@ -12,8 +12,6 @@
 - bring stuff live
 -- configure redirects from id.corpusvitrearum.de
 
-- use hydra
-
 ---
 
 Rewrite to tx_lod:
