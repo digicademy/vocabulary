@@ -217,6 +217,9 @@ class SubjectsController extends ActionController
 
         $this->view->assign('settings', $this->settings);
 
+        // provide environment vars
+        $environment = ['TYPO3_REQUEST_HOST' => GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST')];
+        $this->view->assign('environment', $environment);
     }
 
     /**
@@ -269,6 +272,10 @@ class SubjectsController extends ActionController
 
         // assign current settings
         $this->view->assign('settings', $this->settings);
+
+        // provide environment vars
+        $environment = ['TYPO3_REQUEST_HOST' => GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST')];
+        $this->view->assign('environment', $environment);
     }
 
 // @TODO: think about content negotiation service and move following logic

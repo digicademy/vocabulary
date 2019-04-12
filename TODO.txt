@@ -2,7 +2,7 @@
 
 - about plugin
 -- add basic templates to
---- website extension (nt, json-ld, rdf, ttl)
+--- website extension (nt, json-ld, rdf, ttl, xmp, xml)
 --- vocabulary extension
 -- configure xml (lido) and xmp page types and templates
 
