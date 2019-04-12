@@ -26,7 +26,36 @@ namespace Digicademy\Vocabulary\Resolver;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class HttpResolver
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Digicademy\Vocabulary\Domain\Model\Representations;
+
+class HttpResolver extends AbstractResolver implements ResolverInterface
 {
+
+    /**
+     * @param \Digicademy\Vocabulary\Domain\Model\Representations $representation
+     *
+     * @return string
+     * @throws \TYPO3\CMS\Core\Error\Exception
+     */
+    public function resolveToUrl(Representations $representation)
+    {
+        $recordUrl =
+            $representation->getScheme() . '://' .
+            $representation->getAuthority() .
+            $representation->getPath() .
+            $representation->getQuery() .
+            $representation->getFragment();
+
+        if (GeneralUtility::isValidUrl($recordUrl)) {
+            $url = $recordUrl;
+        } else {
+            throw new \TYPO3\CMS\Core\Error\Exception(
+                'URL of representation with uid ' . $representation->getUid() . ' is invalid', 1555043405
+            );
+        }
+
+        return $url;
+    }
 
 }

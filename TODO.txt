@@ -6,9 +6,6 @@
 --- vocabulary extension
 -- configure xml (lido) and xmp page types and templates
 
-- resolver
--- implement basic http resolver
-
 - bring stuff live
 -- configure redirects from id.corpusvitrearum.de
 
@@ -54,7 +51,12 @@ id=123 => rewritten by realurl to 'id' or whatever (= pagePath)
 -- think about content negotiation service and move logic from controller
 -- remaining todos in controller
 
+- cvma
 -- mechanism for creating subjects when images are created
+
+- resolver
+-- call different typolink handlers according to $representation->getAuthority();
+-- implement language negotiation
 
 ---
 

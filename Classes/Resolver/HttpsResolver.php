@@ -26,7 +26,7 @@ namespace Digicademy\Vocabulary\Resolver;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class HttpsResolver
+class HttpsResolver extends HttpResolver
 {
 
 }
