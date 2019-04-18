@@ -1,19 +1,13 @@
 ## NEXT #########################################
 
 - about plugin
--- add basic templates to
---- website extension (nt, json-ld, rdf, ttl, xmp, xml)
---- vocabulary extension
--- configure xml (lido) and xmp page types and templates
-
-- bring stuff live
--- configure redirects from id.corpusvitrearum.de
+-- add basic templates (nt, json-ld, rdf, ttl, xmp, xml)
 
 ---
 
 Rewrite to tx_lod:
 
-delete subject and object tables
+delete subject and object tables                                                                                                                                                                edsx
 
 introduce three tables:
 resources (uris) => can be associated with a T3 record (former subjects and objects of type URI and records)

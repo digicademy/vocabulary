@@ -304,7 +304,6 @@ class SubjectsController extends ActionController
      */
     private function getAvailableMimeTypes()
     {
-        $this->availableMimeTypes[0] = 'text/html';
         foreach ($GLOBALS['TSFE']->tmpl->setup['types.'] as $key => $type) {
             if ($type == 'page') {
                 continue;
