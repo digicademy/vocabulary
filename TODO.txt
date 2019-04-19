@@ -82,7 +82,7 @@ config.recordLinks.image {
 	typolink {
 		parameter = 13
 		additionalParams.data = field:uid
-		additionalParams.wrap = tx_cvma_archive[image]=|&tx_cvma_archive[action]=show&tx_cvma_archive[controller]=Gallery
+		additionalParams.wrap = &tx_cvma_archive[image]=|&tx_cvma_archive[action]=show&tx_cvma_archive[controller]=Gallery
 		section.data = field:fragment
 		useCacheHash = 1
 	}
