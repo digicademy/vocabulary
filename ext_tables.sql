@@ -148,7 +148,7 @@ CREATE TABLE tx_vocabulary_domain_model_representations (
     hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
     PRIMARY KEY (uid),
-    KEY parent (pid),
+    KEY pid (pid),
 
     KEY parent (parent),
     KEY tablename (tablename),
