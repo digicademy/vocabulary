@@ -16,9 +16,9 @@
     "support": {
         "issues": "https://github.com/digicademy/vocabulary/issues"
     },
-    "version": "0.1.0",
+    "version": "0.2.0",
     "require": {
-        "typo3/cms-core": ">=7.6.0 || <=7.6.99"
+        "typo3/cms-core": ">=7.6.0 || <=9.5.99"
     },
     "replace": {
         "vocabulary": "self.version",

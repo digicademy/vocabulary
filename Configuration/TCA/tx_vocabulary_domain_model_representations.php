@@ -16,7 +16,7 @@ return array(
             'disabled' => 'hidden',
         ),
         'searchFields' => 'content_type, content_language, parameters',
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('vocabulary') . 'Resources/Public/Icons/tx_vocabulary_domain_model_representations.svg'
+        'iconfile' => 'EXT:vocabulary/Resources/Public/Icons/tx_vocabulary_domain_model_representations.svg'
     ),
     'interface' => array(
         'showRecordFieldList' => '
