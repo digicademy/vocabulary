@@ -35,33 +35,37 @@ return array(
         ),
         'starttime' => array(
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config' => array(
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 13,
-                'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
                 'range' => array(
                     'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
                 ),
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true,
+                ),
             ),
         ),
         'endtime' => array(
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config' => array(
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 13,
-                'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
                 'range' => array(
                     'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
+                ),
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true,
                 ),
             ),
         ),

@@ -37,33 +37,37 @@ return array(
         ),
         'starttime' => array(
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
             'config' => array(
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 13,
-                'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
                 'range' => array(
                     'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
                 ),
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true,
+                ),
             ),
         ),
         'endtime' => array(
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
             'config' => array(
                 'type' => 'input',
+                'renderType' => 'inputDateTime',
                 'size' => 13,
-                'max' => 20,
                 'eval' => 'datetime',
                 'checkbox' => 0,
                 'default' => 0,
                 'range' => array(
                     'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
+                ),
+                'behaviour' => array(
+                    'allowLanguageSynchronization' => true,
                 ),
             ),
         ),
@@ -96,29 +100,20 @@ return array(
                 ),
                 'size' => 1,
                 'maxitems' => 1,
-                'wizards' => array(
-                    'edit' => array(
-                        'type' => 'popup',
-                        'title' => 'Edit',
-                        'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
-                        'popup_onlyOpenIfSelected' => 1,
-                        'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                        'module' => array(
-                            'name' => 'wizard_edit',
-                        ),
-                    ),
-                    'add' => Array(
-                        'type' => 'popup',
-                        'title' => 'Create new',
-                        'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
-                        'params' => array(
+                'fieldControl' => array(
+                    'addRecord' => array(
+                        'disabled' => false,
+                        'options' => array(
+                            'title' => 'Create new',
                             'table' => 'tx_vocabulary_domain_model_namespaces',
                             'pid' => '###PAGE_TSCONFIG_ID###',
-                            'setValue' => 'set'
+                            'setValue' => 'set',
                         ),
-                        'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                        'module' => array(
-                            'name' => 'wizard_add',
+                    ),
+                    'editPopup' => array(
+                        'disabled' => false,
+                        'options' => array(
+                            'title' => 'Edit',
                         ),
                     ),
                 ),
@@ -189,19 +184,15 @@ return array(
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'wizards' => array(
-                    'edit' => Array(
-                        'type' => 'popup',
-                        'title' => 'Edit',
-                        'icon' => 'actions-open',
-                        'JSopenParams' => 'height=550,width=900,status=0,menubar=0,scrollbars=1',
-                        'popup_onlyOpenIfSelected' => 1,
-                        'module' => array(
-                            'name' => 'wizard_edit',
+                'fieldControl' => array(
+                    'editPopup' => array(
+                        'disabled' => false,
+                        'options' => array(
+                            'title' => 'Edit',
                         ),
                     ),
                 ),
-            )
+            ),
         ),
     ),
 );
