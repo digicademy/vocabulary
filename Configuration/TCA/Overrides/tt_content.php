@@ -22,29 +22,20 @@ $tca = array(
             'size' => 10,
             'minitems' => 0,
             'maxitems' => 9999,
-            'wizards' => array(
-                'add' => Array(
-                    'type' => 'popup',
-                    'title' => 'Create new',
-                    'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
-                    'params' => array(
+            'fieldControl' => array(
+                'addRecord' => array(
+                    'disabled' => false,
+                    'options' => array(
+                        'title' => 'Create new',
                         'table' => 'tx_vocabulary_domain_model_statements',
                         'pid' => '###PAGE_TSCONFIG_ID###',
-                        'setValue' => 'prepend'
-                    ),
-                    'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-                    'module' => array(
-                        'name' => 'wizard_add',
+                        'setValue' => 'prepend',
                     ),
                 ),
-                'edit' => Array(
-                    'type' => 'popup',
-                    'title' => 'LLL:EXT:vocabulary/Resources/Private/Language/locallang_db.xlf:wizard_edit',
-                    'icon' => 'actions-open',
-                    'JSopenParams' => 'height=550,width=900,status=0,menubar=0,scrollbars=1',
-                    'popup_onlyOpenIfSelected' => 1,
-                    'module' => array(
-                        'name' => 'wizard_edit',
+                'editPopup' => array(
+                    'disabled' => false,
+                    'options' => array(
+                        'title' => 'LLL:EXT:vocabulary/Resources/Private/Language/locallang_db.xlf:wizard_edit',
                     ),
                 ),
             ),
