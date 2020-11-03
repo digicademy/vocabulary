@@ -1,4 +1,6 @@
-# vocabulary
+# [DEPRECATED] vocabulary
+
+**Please note: this extension is superseded by [tx_lod](https://github.com/digicademy/lod) and not maintained any longer**
 
 TYPO3 extension for creating LOD vocabularies in your TYPO3 database. Makes it possible to LODify your data with
 triple statements attached to records in your TYPO3 system. Also useful for uri and normdata management.
